@@ -77,6 +77,21 @@
 
 - name: Copy containerd.service to /etc/systemd/system
   ansible.builtin.copy:
+    src: /tmp/containerd.service
+    dest: /etc/systemd/system/containerd.service
+    mode: "0600"
+  when: ansible_os_family != "Flatcar"
+
+- name: Copy runc to /usr/local/sbin
+  ansible.builtin.copy:
+    src: /tmp/runc
+    remote_src: true
+    dest: /usr/local/sbin/runc
+    mode: "0755"
+  when: ansible_os_family != "Flatcar"
+
+- name: Copy containerd.service to /etc/systemd/system
+  ansible.builtin.copy:
     remote_src: true
     src: /tmp/containerd.service
     dest: /etc/systemd/system/containerd.service
@@ -215,6 +230,16 @@
 - name: Delete containerd tarball
   ansible.builtin.file:
     path: /tmp/{{ containerd_filename }}
+    state: absent
+
+- name: Delete runc bin
+  ansible.builtin.file:
+    path: /tmp/runc
+    state: absent
+
+- name: Delete runc bin
+  ansible.builtin.file:
+    path: /tmp/containerd.service
     state: absent
 
 - name: Delete runc bin
