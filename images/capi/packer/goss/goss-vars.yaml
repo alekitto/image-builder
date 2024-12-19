@@ -280,6 +280,18 @@ rockylinux:
     - distro_version: "9"
       package:
         <<: *rh9_rpms
+  proxmox:
+    package:
+      open-vm-tools:
+      cloud-init:
+      cloud-utils-growpart:
+    os_version:
+    - distro_version: "8"
+      package:
+        <<: *rh8_rpms
+    - distro_version: "9"
+      package:
+        <<: *rh9_rpms
   nutanix:
     package:
       cloud-init:
@@ -483,6 +495,18 @@ ubuntu:
       cloud-initramfs-copymods:
       cloud-initramfs-dyn-netconf:
   qemu:
+    service:
+      networkd-dispatcher:
+        enabled: true
+        running: true
+    package:
+      linux-cloud-tools-virtual:
+      linux-tools-virtual:
+      open-vm-tools:
+      cloud-guest-utils:
+      cloud-initramfs-copymods:
+      cloud-initramfs-dyn-netconf:
+  proxmox:
     service:
       networkd-dispatcher:
         enabled: true
