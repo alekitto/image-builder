@@ -1,0 +1,31 @@
+---
+- name: Install NFS client
+  ansible.builtin.dnf:
+    name: "nfs-utils"
+    state: latest
+    lock_timeout: 60
+
+- name: Install DKMS package
+  ansible.builtin.dnf:
+    name: "kernel-ml-devel,dkms"
+    state: latest
+    lock_timeout: 60
+
+- name: Download i915 sriov kmod archive
+  ansible.builtin.unarchive:
+    src: https://github.com/strongtz/i915-sriov-dkms/archive/refs/tags/2025.11.10.tar.gz
+    dest: /tmp
+    remote_src: yes
+
+- name: Add i915 DKMS module
+  ansible.builtin.command:
+    cmd: dkms add ./i915-sriov-dkms-2025.11.10
+    chdir: /tmp
+
+- name: Build and install i915 DKMS module
+  ansible.builtin.command:
+    cmd: dkms install i915-sriov-dkms/2025.11.10
+
+- name: Set cmdline args
+  ansible.builtin.command:
+    cmd: grubby --args="ro intel_iommu=on i915.enable_guc=3 module_blacklist=xe crashkernel=1G-4G:192M,4G-64G:256M,64G-:512M" --update-kernel=ALL

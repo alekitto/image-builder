@@ -45,13 +45,19 @@ azurelinux_rpms:
   - yum-utils
   - lsof
 
-# Used for RedHat based distributions != 7 (ex. RockyLinux-9 etc.)
+# Used for RedHat based distributions == 8/9 (ex. RHEL-8, RockyLinux-8, RockyLinux-9 etc.)
 rh8_rpms:
   - curl
   - yum-utils
   - nftables
   - python3-netifaces
   - python3-requests
+
+# Used for RedHat based distributions 10 (ex. RHEL-10, RockyLinux-10 etc.)
+rh10_rpms:
+  - curl
+  - yum-utils
+  - nftables
 
 common_debs:
   - auditd

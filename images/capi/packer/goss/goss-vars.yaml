@@ -35,6 +35,10 @@ rh9_rpms: &rh9_rpms
   python3-netifaces:
   python3-requests:
 
+rh10_rpms: &rh10_rpms
+  nftables:
+  netplan:
+
 common_debs: &common_debs
   auditd:
   apt-transport-https:
@@ -292,6 +296,9 @@ rockylinux:
     - distro_version: "9"
       package:
         <<: *rh9_rpms
+    - distro_version: "10"
+      package:
+        <<: *rh10_rpms
   nutanix:
     package:
       cloud-init:

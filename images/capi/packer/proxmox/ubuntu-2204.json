@@ -3,6 +3,7 @@
   "build_name": "ubuntu-2204",
   "distribution_version": "2204",
   "distro_name": "ubuntu",
+  "firmware": "seabios",
   "iso_checksum": "9bc6028870aef3f74f4e16b900008179e78b130e6b0b9a140635434a46aa98b0",
   "iso_checksum_type": "sha256",
   "iso_file": "{{env `ISO_FILE`}}",

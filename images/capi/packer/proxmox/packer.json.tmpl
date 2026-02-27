@@ -1,6 +1,7 @@
 {
   "builders": [
     {
+      "http_interface": "enx9cbf0d0063dc",
       "boot_command": [
         "{{user `boot_command_prefix`}}",
         "{{user `boot_media_path`}}",
@@ -16,7 +17,6 @@
         {
           "disk_size": "{{user `disk_size`}}",
           "format": "{{user `disk_format`}}",
-          "cache_mode": "writethrough",
           "storage_pool": "{{user `storage_pool`}}",
           "storage_pool_type": "{{user `storage_pool_type`}}",
           "type": "virtio"
@@ -24,7 +24,7 @@
       ],
       "efi_config": {
         "efi_storage_pool": "{{user `storage_pool`}}",
-        "pre_enrolled_keys": true,
+        "pre_enrolled_keys": false,
         "efi_type": "4m"
       },
       "scsi_controller": "{{user `scsi_controller`}}",
@@ -38,6 +38,7 @@
       "name": "{{user `build_name`}}",
       "network_adapters": [
         {
+          "model": "virtio",
           "bridge": "{{user `bridge`}}",
           "mtu": "{{ user `mtu` }}",
           "vlan_tag": "{{user `vlan_tag`}}"
@@ -46,7 +47,6 @@
       "node": "{{ user `node` }}",
       "numa": "{{ user `numa` }}",
       "sockets": "{{user `sockets`}}",
-      "scsi_controller": "virtio-scsi-single",
       "ssh_password": "{{user `ssh_password`}}",
       "ssh_timeout": "2h",
       "ssh_username": "{{user `ssh_username`}}",
@@ -139,6 +139,34 @@
       "user": "builder"
     },
     {
+      "expect_disconnect": true,
+      "inline": [
+        "sudo reboot now"
+      ],
+      "inline_shebang": "/bin/bash -e",
+      "type": "shell"
+    },
+    {
+      "ansible_env_vars": [
+        "ANSIBLE_SSH_ARGS='{{user `existing_ansible_ssh_args`}} {{user `ansible_common_ssh_args`}}'",
+        "KUBEVIRT={{user `kubevirt`}}"
+      ],
+      "extra_arguments": [
+        "--extra-vars",
+        "{{user `ansible_common_vars`}}",
+        "--extra-vars",
+        "{{user `ansible_extra_vars`}}",
+        "--extra-vars",
+        "{{user `ansible_user_vars`}}",
+        "--scp-extra-args",
+        "{{user `ansible_scp_extra_args`}}"
+      ],
+      "pause_before": "10s",
+      "playbook_file": "./ansible/finalize.yml",
+      "type": "ansible",
+      "user": "builder"
+    },
+    {
       "arch": "{{user `goss_arch`}}",
       "format": "{{user `goss_format`}}",
       "format_options": "{{user `goss_format_options`}}",
@@ -186,7 +214,7 @@
     "ansible_user_vars": "",
     "artifact_name": "{{user `build_name`}}-kube-{{user `kubernetes_semver`}}",
     "boot_wait": "10s",
-    "bios": "seabios",
+    "bios": "{{user `firmware`}}",
     "bridge": "{{env `PROXMOX_BRIDGE`}}",
     "build_timestamp": "{{timestamp}}",
     "containerd_version": null,
@@ -196,7 +224,7 @@
     "runc_version": null,
     "cores": "2",
     "crictl_version": null,
-    "disk_format": "qcow2",
+    "disk_format": "raw",
     "disk_size": "30G",
     "existing_ansible_ssh_args": "{{env `ANSIBLE_SSH_ARGS`}}",
     "http_directory": "./packer/proxmox/linux/{{user `distro_name`}}/http/",
@@ -233,7 +261,6 @@
     "token": "{{env `PROXMOX_TOKEN`}}",
     "username": "{{env `PROXMOX_USERNAME`}}",
     "vlan_tag": "{{env `PROXMOX_VLAN`}}",
-    "vmid": "501",
-    "scsi_controller": "virtio-scsi-pci"
+    "vmid": "502"
   }
 }

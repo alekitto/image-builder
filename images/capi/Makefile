@@ -340,7 +340,7 @@ PACKER_POWERVS_NODE_FLAGS := $(foreach f,$(abspath $(COMMON_POWERVS_VAR_FILES)),
 FLATCAR_VERSIONS		:=	flatcar
 PHOTON_VERSIONS			:=	photon-4 photon-5
 RHEL_VERSIONS			:=	rhel-9
-ROCKYLINUX_VERSIONS		:=  rockylinux-9
+ROCKYLINUX_VERSIONS		:=  rockylinux-9 rockylinux-10
 ALMALINUX_VERSIONS		:=	almalinux-9
 UBUNTU_VERSIONS			:=	ubuntu-2204 ubuntu-2204-efi ubuntu-2404 ubuntu-2404-efi
 WINDOWS_VERSIONS		:=	windows-2019 windows-2019-efi windows-2022 windows-2022-efi
@@ -401,7 +401,7 @@ NUTANIX_BUILD_NAMES ?= nutanix-ubuntu-2204 nutanix-ubuntu-2404 nutanix-rhel-9 nu
 
 HCLOUD_BUILD_NAMES ?= hcloud-ubuntu-2204 hcloud-ubuntu-2404 hcloud-rockylinux-9 hcloud-flatcar hcloud-flatcar-arm64
 
-PROXMOX_BUILD_NAMES 		?= proxmox-ubuntu-2204 proxmox-ubuntu-2404 proxmox-ubuntu-2404-efi proxmox-rockylinux-9 proxmox-flatcar
+PROXMOX_BUILD_NAMES 		?= proxmox-ubuntu-2204 proxmox-ubuntu-2404 proxmox-ubuntu-2404-efi proxmox-rockylinux-9 proxmox-rockylinux-10 proxmox-flatcar
 
 VULTR_BUILD_NAMES 				?=	vultr-ubuntu-2204 vultr-ubuntu-2404
 
@@ -856,6 +856,7 @@ build-proxmox-ubuntu-2204: ## Builds Ubuntu 22.04 Proxmox image
 build-proxmox-ubuntu-2404: ## Builds Ubuntu 24.04 Proxmox image
 build-proxmox-ubuntu-2404-efi: ## Builds Ubuntu 24.04 Proxmox image that EFI boots
 build-proxmox-rockylinux-9: ## Builds Rocky Linux 9 Proxmox image
+build-proxmox-rockylinux-10: ## Builds the Proxmox rockylinux-10 image
 build-proxmox-flatcar: ## Builds Flatcar Proxmox image
 build-proxmox-all: $(PROXMOX_BUILD_TARGETS) ## Builds all Proxmox images
 

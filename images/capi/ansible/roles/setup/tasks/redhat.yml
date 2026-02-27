@@ -24,13 +24,17 @@
     - lookup('env', 'RHSM_PASS') | length > 0
 
 - name: Perform dnf clean
-  ansible.builtin.command: /usr/bin/yum -y clean all
+  ansible.builtin.command: /usr/bin/dnf -y clean all
 
 - name: Enable the EPEL repository
   ansible.builtin.command: amazon-linux-extras enable epel
   args:
     creates: /etc/yum.repos.d/epel.repo
   when: packer_builder_type.startswith('amazon')
+
+- name: Enable the Appstream repository
+  ansible.builtin.command: dnf config-manager --set-enabled appstream crb baseos
+  when: redhat_epel_rpm != "" and not packer_builder_type.startswith('amazon')
 
 - name: Install EPEL package
   ansible.builtin.dnf:
@@ -42,6 +46,8 @@
   ansible.builtin.rpm_key:
     state: present
     key: "{{ epel_rpm_gpg_key }}"
+  retries: 5
+  delay: 10
   when: epel_rpm_gpg_key != "" and not packer_builder_type.startswith('amazon') and not packer_builder_type.startswith('scaleway')
 
 - name: Add epel repo
@@ -49,6 +55,8 @@
     name: "{{ redhat_epel_rpm }}"
     state: present
     lock_timeout: 60
+  retries: 5
+  delay: 10
   when: redhat_epel_rpm != "" and not packer_builder_type.startswith('amazon') and not packer_builder_type.startswith('scaleway')
 
 - name: Import RPM repository tasks

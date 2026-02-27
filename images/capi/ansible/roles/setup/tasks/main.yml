@@ -27,6 +27,10 @@
   ansible.builtin.import_tasks: azurelinux.yml
   when: ansible_facts['os_family'] in ["Common Base Linux Mariner", "Microsoft Azure Linux"]
 
+- name: Import Rocky linux setup tasks
+  ansible.builtin.import_tasks: rockylinux.yml
+  when: packer_build_name.startswith('rockylinux')
+
 - name: Import RedHat setup tasks
   ansible.builtin.import_tasks: redhat.yml
   when: ansible_facts['os_family'] == "RedHat"
