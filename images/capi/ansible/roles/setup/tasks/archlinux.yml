@@ -3,10 +3,6 @@
   community.general.pacman:
     update_cache: true
 
-- name: Perform a full system upgrade
-  community.general.pacman:
-    upgrade: true
-
 - name: Install baseline dependencies
   community.general.pacman:
     name:
