@@ -1,0 +1,31 @@
+---
+- name: Refresh pacman package databases
+  community.general.pacman:
+    update_cache: true
+
+- name: Perform a full system upgrade
+  community.general.pacman:
+    upgrade: true
+
+- name: Install baseline dependencies
+  community.general.pacman:
+    name:
+      - audit
+      - ca-certificates
+      - chrony
+      - conntrack-tools
+      - curl
+      - iptables
+      - jq
+      - nftables
+      - pacman-contrib
+      - python-netifaces
+      - python-pip
+      - socat
+    state: present
+
+- name: Install extra packages
+  community.general.pacman:
+    name: "{{ extra_rpms.split() }}"
+    state: present
+  when: extra_rpms != ""

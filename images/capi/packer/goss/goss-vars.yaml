@@ -55,6 +55,20 @@ common_debs: &common_debs
   python3-pip:
   socat:
 
+common_archlinux_pkgs: &common_archlinux_pkgs
+  audit:
+  ca-certificates:
+  chrony:
+  conntrack-tools:
+  curl:
+  iptables:
+  jq:
+  nftables:
+  pacman-contrib:
+  python-netifaces:
+  python-pip:
+  socat:
+
 common_azurelinux_rpms: &common_azurelinux_rpms
   audit:
   ca-certificates:
@@ -254,6 +268,23 @@ mariner:
   azure:
     package:
       open-vm-tools:
+archlinux:
+  common-package:
+    <<: *common_archlinux_pkgs
+    cloud-init:
+    cloud-guest-utils:
+  qemu:
+    command:
+    files:
+    package:
+      qemu-guest-agent:
+    service:
+      chronyd:
+        enabled: true
+        running: true
+      qemu-guest-agent:
+        enabled: true
+        running: false
 rockylinux:
   common-package: *common_rpms
   amazon:

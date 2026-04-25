@@ -35,6 +35,16 @@
       - cloud-utils-growpart
   when: ansible_facts['os_family'] == "RedHat"
 
+- name: Install cloud-init packages
+  community.general.pacman:
+    name:
+      - cloud-guest-utils
+      - cloud-init
+      - qemu-guest-agent
+    state: present
+    update_cache: true
+  when: ansible_facts['distribution'] == "Archlinux"
+
 - name: Disable Hyper-V KVP protocol daemon on Ubuntu
   ansible.builtin.systemd:
     name: hv-kvp-daemon
@@ -62,3 +72,9 @@
     - { src: files/etc/networkd-dispatcher/off.d/20-chrony.j2, dest: /etc/networkd-dispatcher/off.d/20-chrony }
     - { src: files/etc/networkd-dispatcher/no-carrier.d/20-chrony.j2, dest: /etc/networkd-dispatcher/no-carrier.d/20-chrony }
   when: ansible_facts['os_family'] == "Debian"
+
+- name: Ensure qemu-guest-agent is enabled
+  ansible.builtin.systemd:
+    name: qemu-guest-agent
+    enabled: true
+  when: ansible_facts['distribution'] == "Archlinux"

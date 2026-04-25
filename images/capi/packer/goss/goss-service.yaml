@@ -15,7 +15,7 @@ service:
   auditd:
     enabled: true
     running: true
-  {{if ne .Vars.OS "flatcar"}}
+  {{if and (ne .Vars.OS "flatcar") (ne .Vars.OS "archlinux")}}
   # Flatcar uses systemd-timesyncd instead of chronyd.
   chronyd:
     enabled: true

@@ -28,6 +28,10 @@
   ansible.builtin.import_tasks: azurelinux.yml
   when: ansible_facts['os_family'] in ["Common Base Linux Mariner", "Microsoft Azure Linux"]
 
+- name: Import Arch Linux sysprep tasks
+  ansible.builtin.import_tasks: archlinux.yml
+  when: ansible_facts['distribution'] == "Archlinux"
+
 - name: Import Photon sysprep tasks
   ansible.builtin.import_tasks: photon.yml
   when: ansible_facts['os_family'] == "VMware Photon OS"
@@ -118,6 +122,12 @@
     cmd: |
       cloud-init clean
   when: ansible_facts['os_family'] == "RedHat"
+
+- name: Reset cloud-init
+  ansible.builtin.shell:
+    cmd: |
+      cloud-init clean --machine-id
+  when: ansible_facts['distribution'] == "Archlinux"
 
 - name: Remove cloud-init.disabled
   ansible.builtin.file:

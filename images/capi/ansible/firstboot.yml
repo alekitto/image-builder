@@ -25,7 +25,18 @@
 
     - name: Install Python
       changed_when: true
-      ansible.builtin.raw: test -e /usr/bin/apt && (apt-get update && apt-get install -y python3) || (yum install -y python3)
+      ansible.builtin.raw: |
+        if test -e /usr/bin/apt; then
+          apt-get update && apt-get install -y python3
+        elif test -e /usr/bin/dnf; then
+          dnf install -y python3
+        elif test -e /usr/bin/yum; then
+          yum install -y python3
+        elif test -e /usr/bin/pacman; then
+          pacman -Sy --noconfirm python
+        else
+          exit 1
+        fi
       when: python_installed.rc != 0
 
 - name: Run firstboot roles

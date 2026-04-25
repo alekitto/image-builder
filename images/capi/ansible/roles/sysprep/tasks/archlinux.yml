@@ -1,0 +1,12 @@
+---
+- name: Clear pacman package cache
+  ansible.builtin.command: pacman -Scc --noconfirm
+
+- name: Enable and start chronyd late in the build
+  ansible.builtin.systemd:
+    name: chronyd
+    enabled: true
+    state: started
+
+- name: Regenerate initramfs
+  ansible.builtin.command: mkinitcpio -P

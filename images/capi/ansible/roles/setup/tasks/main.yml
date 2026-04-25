@@ -31,6 +31,10 @@
   ansible.builtin.import_tasks: rockylinux.yml
   when: packer_build_name.startswith('rockylinux')
 
+- name: Import Arch Linux setup tasks
+  ansible.builtin.import_tasks: archlinux.yml
+  when: ansible_facts['distribution'] == "Archlinux"
+
 - name: Import RedHat setup tasks
   ansible.builtin.import_tasks: redhat.yml
   when: ansible_facts['os_family'] == "RedHat"

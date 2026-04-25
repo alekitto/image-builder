@@ -1,0 +1,18 @@
+{
+  "ansible_extra_vars": "ansible_python_interpreter=/usr/bin/python",
+  "build_name": "archlinux-cloudimg",
+  "cd_files": "./packer/qemu/cloud-init/archlinux/*",
+  "disk_image": "true",
+  "distribution_version": "latest",
+  "distro_name": "archlinux",
+  "guest_os_type": "linux",
+  "iso_checksum": "https://geo.mirror.pkgbuild.com/images/latest/Arch-Linux-x86_64-cloudimg.qcow2.SHA256",
+  "iso_checksum_type": "file",
+  "iso_url": "https://geo.mirror.pkgbuild.com/images/latest/Arch-Linux-x86_64-cloudimg.qcow2",
+  "kubernetes_cni_source_type": "http",
+  "kubernetes_source_type": "http",
+  "last_log_mode": "0644",
+  "machine_id_mode": "0444",
+  "os_display_name": "Arch Linux",
+  "shutdown_command": "shutdown -P now"
+}
