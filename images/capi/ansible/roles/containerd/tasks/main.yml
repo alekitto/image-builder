@@ -88,7 +88,7 @@
     src: /tmp/runc
     dest: /usr/local/sbin/runc
     mode: "0755"
-  when: ansible_os_family != "Flatcar"
+  when: ansible_facts['os_family'] != "Flatcar"
 
 - name: Copy containerd.service to /etc/systemd/system
   ansible.builtin.copy:

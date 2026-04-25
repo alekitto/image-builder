@@ -37,6 +37,7 @@ bootloader --location=mbr --boot-drive=vda
 zerombr
 clearpart --all --initlabel --drives=vda
 part /boot/efi --fstype="efi" --size=512 --ondisk=vda
+part swap --recommended --ondisk=vda
 part / --fstype="ext4" --grow --asprimary --label=slash --ondisk=vda
 
 skipx
