@@ -18,19 +18,26 @@ if [[ -z "${DISK}" ]]; then
 fi
 
 if [[ "${DISK}" == *"nvme"* || "${DISK}" == *"mmcblk"* ]]; then
-  PART="${DISK}p1"
+  EFI_PART="${DISK}p1"
+  ROOT_PART="${DISK}p2"
 else
-  PART="${DISK}1"
+  EFI_PART="${DISK}1"
+  ROOT_PART="${DISK}2"
 fi
 
 timedatectl set-ntp true
 pacman -Sy --noconfirm archlinux-keyring
 
-parted -s "${DISK}" mklabel msdos
-parted -s "${DISK}" mkpart primary ext4 1MiB 100%
+parted -s "${DISK}" mklabel gpt
+parted -s "${DISK}" mkpart ESP fat32 1MiB 513MiB
+parted -s "${DISK}" set 1 esp on
+parted -s "${DISK}" mkpart primary ext4 513MiB 100%
 udevadm settle
-mkfs.ext4 -F "${PART}"
-mount "${PART}" /mnt
+mkfs.fat -F 32 "${EFI_PART}"
+mkfs.ext4 -F "${ROOT_PART}"
+mount "${ROOT_PART}" /mnt
+mkdir -p /mnt/boot/efi
+mount "${EFI_PART}" /mnt/boot/efi
 
 pacstrap -K /mnt \
   audit \
@@ -39,6 +46,9 @@ pacstrap -K /mnt \
   conntrack-tools \
   curl \
   cloud-init \
+  cloud-guest-utils \
+  dosfstools \
+  efibootmgr \
   grub \
   iptables \
   jq \
@@ -57,9 +67,9 @@ pacstrap -K /mnt \
 genfstab -U /mnt >> /mnt/etc/fstab
 
 arch-chroot /mnt env \
-  ENCRYPTED_SSH_PASSWORD='$6$HAyZllGXEhjmTubm$miT.hPmXIhfE/QCcRbgykx4.kgZWxcKeOOFaJJo/EAhJQEnxQ.brJ3A683NlvvsYH97103Bb9I2AYvmH81nOJ.' \
+  ENCRYPTED_SSH_PASSWORD='$ENCRYPTED_SSH_PASSWORD' \
   DISK="${DISK}" \
-  PART="${PART}" \
+  ROOT_PART="${ROOT_PART}" \
   /bin/bash <<'EOF'
 set -euxo pipefail
 
@@ -107,8 +117,8 @@ systemctl enable systemd-networkd
 systemctl enable systemd-resolved
 systemctl enable qemu-guest-agent
 
-grub-install --target=i386-pc --no-floppy "${DISK}"
-ROOT_UUID="$(blkid -s UUID -o value "${PART}")"
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB --removable
+ROOT_UUID="$(blkid -s UUID -o value "${ROOT_PART}")"
 cat >/boot/grub/grub.cfg <<GRUB
 set default=0
 set timeout=0

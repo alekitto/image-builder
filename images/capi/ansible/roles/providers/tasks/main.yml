@@ -124,6 +124,18 @@
     - cloud-init-local
   when: ansible_facts['os_family'] != "Flatcar" and ansible_facts['distribution'] != "Archlinux"
 
+- name: Make sure all cloud init services are enabled on Archlinux
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: true
+  with_items:
+    - cloud-final.service
+    - cloud-config.service
+    - cloud-init-main.service
+    - cloud-init-network.service
+    - cloud-init-local.service
+  when: ansible_facts['distribution'] == "Archlinux"
+
 - name: Create cloud-init config file
   ansible.builtin.copy:
     src: files/etc/cloud/cloud.cfg.d/05_logging.cfg

@@ -273,6 +273,16 @@ archlinux:
     <<: *common_archlinux_pkgs
     cloud-init:
     cloud-guest-utils:
+  proxmox:
+    package:
+      qemu-guest-agent:
+    service:
+      chronyd:
+        enabled: true
+        running: true
+      qemu-guest-agent:
+        enabled: true
+        running: true
   qemu:
     command:
     files:

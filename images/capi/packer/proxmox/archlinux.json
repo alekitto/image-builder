@@ -1,0 +1,22 @@
+{
+  "ansible_extra_vars": "ansible_python_interpreter=/usr/bin/python",
+  "bios": "ovmf",
+  "boot_command_prefix": "<enter><wait60s>curl -fsSL ",
+  "boot_command_suffix": "/install.sh | bash<enter>",
+  "boot_media_path": "http://{{ .HTTPIP }}:{{ .HTTPPort }}",
+  "build_name": "archlinux",
+  "distribution_version": "rolling",
+  "distro_name": "archlinux",
+  "firmware": "ovmf",
+  "guest_os_type": "linux-64",
+  "iso_checksum": "f14bf46afbe782d28835aed99bfa2fe447903872cb9f4b21153196d6ed1d48ae",
+  "iso_checksum_type": "sha256",
+  "iso_url": "https://geo.mirror.pkgbuild.com/iso/2026.04.01/archlinux-2026.04.01-x86_64.iso",
+  "kubernetes_cni_source_type": "http",
+  "kubernetes_source_type": "http",
+  "last_log_mode": "0644",
+  "machine_id_mode": "0444",
+  "os_display_name": "Arch Linux",
+  "shutdown_command": "shutdown -P now",
+  "unmount_iso": "true"
+}

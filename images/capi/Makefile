@@ -401,7 +401,7 @@ NUTANIX_BUILD_NAMES ?= nutanix-ubuntu-2204 nutanix-ubuntu-2404 nutanix-rhel-9 nu
 
 HCLOUD_BUILD_NAMES ?= hcloud-ubuntu-2204 hcloud-ubuntu-2404 hcloud-rockylinux-9 hcloud-flatcar hcloud-flatcar-arm64
 
-PROXMOX_BUILD_NAMES 		?= proxmox-ubuntu-2204 proxmox-ubuntu-2404 proxmox-ubuntu-2404-efi proxmox-rockylinux-9 proxmox-rockylinux-10 proxmox-flatcar
+PROXMOX_BUILD_NAMES 		?= proxmox-ubuntu-2204 proxmox-ubuntu-2404 proxmox-ubuntu-2404-efi proxmox-rockylinux-9 proxmox-rockylinux-10 proxmox-archlinux proxmox-flatcar
 
 VULTR_BUILD_NAMES 				?=	vultr-ubuntu-2204 vultr-ubuntu-2404
 
@@ -859,6 +859,7 @@ build-proxmox-ubuntu-2404: ## Builds Ubuntu 24.04 Proxmox image
 build-proxmox-ubuntu-2404-efi: ## Builds Ubuntu 24.04 Proxmox image that EFI boots
 build-proxmox-rockylinux-9: ## Builds Rocky Linux 9 Proxmox image
 build-proxmox-rockylinux-10: ## Builds the Proxmox rockylinux-10 image
+build-proxmox-archlinux: ## Builds Arch Linux Proxmox image
 build-proxmox-flatcar: ## Builds Flatcar Proxmox image
 build-proxmox-all: $(PROXMOX_BUILD_TARGETS) ## Builds all Proxmox images
 
@@ -999,6 +1000,7 @@ validate-proxmox-ubuntu-2204: ## Validates Ubuntu 22.04 Proxmox Packer config
 validate-proxmox-ubuntu-2404: ## Validates Ubuntu 24.04 Proxmox Packer config
 validate-proxmox-ubuntu-2404-efi: ## Validates Ubuntu 24.04 EFI Proxmox Packer config
 validate-proxmox-rockylinux-9: ## Validates Rocky Linux 9 Proxmox Packer config
+validate-proxmox-archlinux: ## Validates Arch Linux Proxmox Packer config
 validate-proxmox-flatcar: ## Validates Flatcar Proxmox Packer config
 validate-proxmox-all: $(PROXMOX_VALIDATE_TARGETS) ## Validates all Proxmox Packer config
 
