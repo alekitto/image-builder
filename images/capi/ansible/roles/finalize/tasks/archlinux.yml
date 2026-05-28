@@ -16,19 +16,19 @@
 
 - name: Download i915 sriov kmod archive
   ansible.builtin.unarchive:
-    src: https://github.com/strongtz/i915-sriov-dkms/archive/refs/heads/kernel-v6.19.tar.gz
+    src: https://github.com/strongtz/i915-sriov-dkms/archive/refs/heads/kernel-v7.0.tar.gz
     dest: /tmp
     remote_src: true
 
 - name: Read i915 DKMS module version
   ansible.builtin.command:
-    cmd: awk -F= '/^PACKAGE_VERSION=/{gsub(/"/, "", $2); print $2}' /tmp/i915-sriov-dkms-kernel-v6.19/dkms.conf
+    cmd: awk -F= '/^PACKAGE_VERSION=/{gsub(/"/, "", $2); print $2}' /tmp/i915-sriov-dkms-kernel-v7.0/dkms.conf
   changed_when: false
   register: i915_sriov_dkms_version
 
 - name: Add i915 DKMS module
   ansible.builtin.command:
-    cmd: dkms add ./i915-sriov-dkms-kernel-v6.19
+    cmd: dkms add ./i915-sriov-dkms-kernel-v7.0
     chdir: /tmp
     creates: /var/lib/dkms/i915-sriov-dkms/{{ i915_sriov_dkms_version.stdout }}/source
 

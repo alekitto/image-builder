@@ -1,7 +1,7 @@
 {
   "ansible_extra_vars": "ansible_python_interpreter=/usr/bin/python",
   "bios": "ovmf",
-  "boot_command_prefix": "<enter><wait60s>curl -fsSL ",
+  "boot_command_prefix": "<enter><wait120s>curl -fsSL ",
   "boot_command_suffix": "/install.sh | bash<enter>",
   "boot_media_path": "http://{{ .HTTPIP }}:{{ .HTTPPort }}",
   "build_name": "archlinux",
