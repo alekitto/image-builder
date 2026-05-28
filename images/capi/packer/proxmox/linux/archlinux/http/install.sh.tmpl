@@ -99,7 +99,26 @@ Name=en*
 
 [Network]
 DHCP=yes
+IPv6AcceptRA=yes
+
+[IPv6AcceptRA]
+UseAutonomousPrefix=false
 NETWORK
+
+mkdir -p /etc/systemd/network/10-cloud-init-ens18.network.d
+cat >/etc/systemd/network/10-cloud-init-ens18.network.d/99-disable-slaac.conf <<'NETWORK'
+[IPv6AcceptRA]
+UseAutonomousPrefix=false
+NETWORK
+
+cat >/etc/sysctl.d/80-ipv6-router-advertisements.conf <<'SYSCTL'
+net.ipv6.conf.all.accept_ra = 2
+net.ipv6.conf.default.accept_ra = 2
+net.ipv6.conf.all.autoconf = 0
+net.ipv6.conf.default.autoconf = 0
+net.ipv6.conf.all.accept_ra_pinfo = 0
+net.ipv6.conf.default.accept_ra_pinfo = 0
+SYSCTL
 
 useradd -m -G wheel -s /bin/bash builder
 usermod --password "${ENCRYPTED_SSH_PASSWORD}" builder

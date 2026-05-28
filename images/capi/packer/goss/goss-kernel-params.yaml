@@ -6,6 +6,18 @@ kernel-param:
     value: "1"
   net.ipv6.conf.all.disable_ipv6:
     value: "0"
+  net.ipv6.conf.all.accept_ra:
+    value: "2"
+  net.ipv6.conf.default.accept_ra:
+    value: "2"
+  net.ipv6.conf.all.autoconf:
+    value: "0"
+  net.ipv6.conf.default.autoconf:
+    value: "0"
+  net.ipv6.conf.all.accept_ra_pinfo:
+    value: "0"
+  net.ipv6.conf.default.accept_ra_pinfo:
+    value: "0"
   net.ipv4.ip_forward:
     value: "1"
   net.bridge.bridge-nf-call-ip6tables:
